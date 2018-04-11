@@ -1,25 +1,14 @@
-" Directory used for notes
 if !exists('g:notes_directory')
   let g:notes_directory = $HOME . '/notes'
 end
 
-" `mod` used to create a new window. See `:h mods`.
 if !exists('g:notes_default_mod')
   let g:notes_default_mod = 'vert'
 end
 
-
-" Extension used for note files
 if !exists('g:notes_extension')
   let g:notes_extension = 'md'
 end
-
-" Print useful messages when debuging this plugin
-let g:notes_verbose = 1
-if !exists('g:notes_verbose')
-  let g:notes_verbose = 0
-end
-
 
 function! s:ensure_direcotry()
   if !isdirectory(g:notes_directory)
@@ -45,8 +34,8 @@ function! s:append(filename, content, opts)
   call writefile(a:content, a:filename, "a")
 endfunction
 
-function! s:block(start, lines)
-  if a:lines == []
+function! s:block(start, end, lines)
+  if a:lines == [] || a:start == a:end
     return []
   else
     let l:file=expand('%:p:~')
@@ -60,40 +49,55 @@ function! notes#new(opts)
   let l:args = filter(a:opts, 'v:val != ""')
   let l:opts = extend(l:args, {
                   \ 'mod': g:notes_default_mod,
-                  \ 'note': strftime('%Y-%m-%d')
+                  \ 'note': '',
+                  \ 'append': 0,
                   \ }, 'keep')
   let l:note = split(l:opts.note, ' ')
-  let l:filename = s:to_filename(l:note[0])
+  if len(l:note) > 0 && l:note[0] =~ '^@'
+    let l:head = substitute(l:note[0], "^@", "", "")
+    let l:note = l:note[1:]
+    let l:filename = s:to_filename(l:head)
+  else
+    let l:filename = s:to_filename(strftime('%Y-%m-%d'))
+  end
   let l:lines = getline(a:opts.line1, a:opts.line2)
-  let l:block = s:block(a:opts.line1, l:lines)
+  let l:block = s:block(a:opts.line1, a:opts.line2, l:lines)
+  let l:content = join(l:note)
+  let l:to_append = filter(l:block + [l:content], 'v:val !~ "^\s*$"')
 
-  if len(l:note) <= 1
-    if l:block == []
-      call s:show(l:filename, l:opts)
+  if len(l:to_append) > 0
+    call s:append(l:filename, l:to_append, l:opts)
+  end
+  if l:opts.append
+    if l:to_append == []
+      echom "Nothing to append!"
     else
-      call s:append(l:filename, l:block, l:opts)
+      echom "Appended: " . l:filename
     end
   else
-    let l:content = join(l:note[1:])
-    call s:append(l:filename, l:block + [l:content], l:opts)
+    call s:show(l:filename, l:opts)
   end
 endfunction
 
 function! notes#list(arg_lead, cmd_line, cursor_pos)
   let list = split(globpath(g:notes_directory, '**/*.' . g:notes_extension), '\n')
   let nice_list = deepcopy(l:list)
-  call map(l:nice_list, 'fnamemodify(v:val, ":t:r")')
+  call map(l:nice_list, '"@" . fnamemodify(v:val, ":t:r")')
   return reverse(filter(l:nice_list, 'v:val =~ "^'. a:arg_lead .'"'))
 endfunction
 
 command!
   \ -complete=customlist,notes#list
-  \ -range=0
+  \ -range
+  \ -bang
   \ -nargs=?
   \ Note
   \ call notes#new({
     \ 'note': <q-args>,
     \ 'mod': <q-mods>,
     \ 'line1': <line1>,
-    \ 'line2': <line2>
+    \ 'line2': <line2>,
+    \ 'append': <bang>0
     \ })
+
+" TODO RemoveNote, Notes, SearchNote

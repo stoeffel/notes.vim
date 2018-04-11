@@ -5,19 +5,77 @@ Notes
 ====================================================================
 CONTENTS                                                     *Notes*
 
-    1. Usage ................ |NotesUsage|
+    1. Intro ................ |NotesIntro|
     2. Command .............. |NotesCommands|
-    3. License .............. |NotesLicense|
+    3. Configuration ........ |NotesConfiguration|
+    4. License .............. |NotesLicense|
 
 ====================================================================
-Section 1: Usage                                        *NotesUsage*
+Section 1: Intro                                        *NotesIntro*
+
+This is a simple plugin to manage your notes and quickly write a new
+note.
 
 ====================================================================
-Section 2: Command                                    *NotesCommands*
+Section 2: Command                                   *NotesCommands*
 
+:Note[!] [@notename] [note]                                     *:Note*
+
+[@notename]: Default file name is the current date.
+[note]: You can directly pass a note which will appended
+        in the [@notename].
+[!]: appends [@notename] without opening the file.
+
+You can use mods with :Note. See `:h mods` for options.
+If you visually select more than one line than that selection will be
+added as a code snippet with a link to the location to your notes.
+You can open a link with `gF`.
 
 ====================================================================
-Section 3: License                                    *NotesLicense*
+Section 3: Configuration                        *NotesConfiguration*
 
-Copyright (C) <2018>  <Christoph Hermann>
+                                                 *g:notes_directory*
+Directory used to store your notes.
+Default: `~/notes`
 
+                                                *g:notes_default_mod*
+You can define where to open the notes window.
+See `:h mods` for options
+Default: `vert`
+
+                                                  *g:notes_extension*
+Extension of the files containing your notes.
+Default: `md`
+
+====================================================================
+Section 4: License                                    *NotesLicense*
+
+BSD 3-Clause License
+
+Copyright (c) 2018, Christoph Hermann
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
