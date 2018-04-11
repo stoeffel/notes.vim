@@ -42,6 +42,12 @@ This is only supported if you've got the fzf plugin installed!
 
 This will allow you to fuzzy search notes.
 
+:SearchNotes PATTERN                                  *:SearchNotes*
+
+This is only supported if you've got the fzf plugin installed!
+
+This will allow you to search inside your notes.
+
 ====================================================================
 Section 3: Configuration                        *NotesConfiguration*
 
