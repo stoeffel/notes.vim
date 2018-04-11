@@ -1,0 +1,23 @@
+*notes.txt* simple plugin to take notes
+
+Notes
+
+====================================================================
+CONTENTS                                                     *Notes*
+
+    1. Usage ................ |NotesUsage|
+    2. Command .............. |NotesCommands|
+    3. License .............. |NotesLicense|
+
+====================================================================
+Section 1: Usage                                        *NotesUsage*
+
+====================================================================
+Section 2: Command                                    *NotesCommands*
+
+
+====================================================================
+Section 3: License                                    *NotesLicense*
+
+Copyright (C) <2018>  <Christoph Hermann>
+
