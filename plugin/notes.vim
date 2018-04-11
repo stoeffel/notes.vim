@@ -136,4 +136,9 @@ command!
     \ 'note': <q-args>
     \ })
 
-" TODO Notes, SearchNote
+if exists('fzf#vim#files')
+  command! -bang -nargs=? Notes
+    \ call fzf#vim#files(g:notes_directory, { 'options': '--bind ctrl-a:select-all,ctrl-d:deselect-all' }, <bang>0)
+end
+
+" TODO SearchNote

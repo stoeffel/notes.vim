@@ -36,6 +36,12 @@ You can open a link with `gF`.
 
 Delete a note from the notes directory.
 
+:Notes                                                      *:Notes*
+
+This is only supported if you've got the fzf plugin installed!
+
+This will allow you to fuzzy search notes.
+
 ====================================================================
 Section 3: Configuration                        *NotesConfiguration*
 
