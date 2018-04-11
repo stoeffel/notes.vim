@@ -70,12 +70,40 @@ function! notes#new(opts)
   end
   if l:opts.append
     if l:to_append == []
-      echom "Nothing to append!"
+      echom "There is nothing to append!"
     else
-      echom "Appended: " . l:filename
+      echom "I appended " . l:filename . " with your note."
     end
   else
     call s:show(l:filename, l:opts)
+  end
+endfunction
+
+function! notes#remove(opts)
+  call s:ensure_direcotry()
+  let l:args = filter(a:opts, 'v:val != ""')
+  let l:opts = extend(l:args, {
+                  \ 'note': ''
+                  \ }, 'keep')
+  let l:splitted = split(l:opts.note)
+  if len(l:splitted) != 1
+    echom "I expect exactly one note."
+    return
+  end
+  let l:note = l:splitted[0]
+  if l:note =~ '^@'
+    let l:without_at = substitute(l:note, "^@", "", "")
+    let l:filename = s:to_filename(l:without_at)
+  else
+    echom "I didn't find this note " . l:note . ". Notes should start with an @."
+    return
+  end
+  let l:choice = confirm("Delete " . l:filename . " changes?", "&Yes\n&No")
+  if l:choice == 1
+    call delete(l:filename)
+    echom "I deleted " . l:filename . "."
+  else
+    echom "Nothing deleted."
   end
 endfunction
 
@@ -100,4 +128,12 @@ command!
     \ 'append': <bang>0
     \ })
 
-" TODO RemoveNote, Notes, SearchNote
+command!
+  \ -complete=customlist,notes#list
+  \ -nargs=1
+  \ RemoveNote
+  \ call notes#remove({
+    \ 'note': <q-args>
+    \ })
+
+" TODO Notes, SearchNote

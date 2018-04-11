@@ -6,7 +6,7 @@ Notes
 CONTENTS                                                     *Notes*
 
     1. Intro ................ |NotesIntro|
-    2. Command .............. |NotesCommands|
+    2. Commands.............. |NotesCommands|
     3. Configuration ........ |NotesConfiguration|
     4. License .............. |NotesLicense|
 
@@ -17,9 +17,9 @@ This is a simple plugin to manage your notes and quickly write a new
 note.
 
 ====================================================================
-Section 2: Command                                   *NotesCommands*
+Section 2: Commands                                  *NotesCommands*
 
-:Note[!] [@notename] [note]                                     *:Note*
+:Note[!] [@notename] [note]                                  *:Note*
 
 [@notename]: Default file name is the current date.
 [note]: You can directly pass a note which will appended
@@ -27,9 +27,14 @@ Section 2: Command                                   *NotesCommands*
 [!]: appends [@notename] without opening the file.
 
 You can use mods with :Note. See `:h mods` for options.
-If you visually select more than one line than that selection will be
-added as a code snippet with a link to the location to your notes.
+If you visually select more than one line than that selection will
+be added as a code snippet with a link to the location
+to your notes.
 You can open a link with `gF`.
+
+:RemoveNote @notename                                  *:RemoveNote*
+
+Delete a note from the notes directory.
 
 ====================================================================
 Section 3: Configuration                        *NotesConfiguration*
