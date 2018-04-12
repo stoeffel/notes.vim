@@ -27,10 +27,11 @@ Section 2: Commands                                  *NotesCommands*
 [!]: appends [@notename] without opening the file.
 
 You can use mods with :Note. See `:h mods` for options.
-If you visually select more than one line than that selection will
-be added as a code snippet with a link to the location
-to your notes.
-You can open a link with `gF`.
+
+You can execute `:'<,'>Note` on a visual selection to add
+the selection to a note.
+The snippet in your notes will have a link to the file
+with a linenumber. You can jump to that file by pressing `gF`.
 
 :RemoveNote @notename                                  *:RemoveNote*
 
