@@ -59,8 +59,6 @@ function! s:selection(start, end)
   endif
   let l:lines[-1] = l:lines[-1][:l:col2 - 1]
   let l:lines[0] = l:lines[0][l:col1 - 1:]
-  let l:delmark = 'delmarks < >'
-  exec l:delmark
   return l:lines
 endfunction
 
