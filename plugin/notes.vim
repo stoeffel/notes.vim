@@ -34,14 +34,34 @@ function! s:append(filename, content, opts)
   call writefile(a:content, a:filename, "a")
 endfunction
 
-function! s:block(start, end, lines)
-  if a:lines == [] || a:start == a:end
+function! s:block(lines)
+  if a:lines == []
     return []
   else
     let l:file=expand('%:p:~')
     let l:extension=expand('%:e')
-    return ["> " . l:file . " @ " . a:start, "```" . l:extension] + a:lines + ["```"]
+    return ["> " . l:file . " @ " . a:lines[0], "```" . l:extension] + a:lines + ["```"]
   end
+endfunction
+
+function! s:selection(start, end)
+  let [l:lnum1, l:col1] = getpos("'<")[1:2]
+  let [l:lnum2, l:col2] = getpos("'>")[1:2]
+  if l:lnum1 != a:start || l:lnum2 != a:end
+    return []
+  endif
+  if &selection ==# 'exclusive'
+    let l:col2 -= 1
+  endif
+  let l:lines = getline(l:lnum1, l:lnum2)
+  if l:lines == []
+    return []
+  endif
+  let l:lines[-1] = l:lines[-1][:l:col2 - 1]
+  let l:lines[0] = l:lines[0][l:col1 - 1:]
+  let l:delmark = 'delmarks < >'
+  exec l:delmark
+  return l:lines
 endfunction
 
 function! notes#new(opts)
@@ -60,8 +80,8 @@ function! notes#new(opts)
   else
     let l:filename = s:to_filename(strftime('%Y-%m-%d'))
   end
-  let l:lines = getline(a:opts.line1, a:opts.line2)
-  let l:block = s:block(a:opts.line1, a:opts.line2, l:lines)
+  let l:lines = s:selection(a:opts.line1, a:opts.line2)
+  let l:block = s:block(l:lines)
   let l:content = join(l:note)
   let l:to_append = filter(l:block + [l:content], 'v:val !~ "^\s*$"')
 
