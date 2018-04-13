@@ -154,16 +154,11 @@ command!
     \ 'note': <q-args>
     \ })
 
-if exists('fzf#vim#files')
-  command! -bang -nargs=? Notes
-    \ call fzf#vim#files(g:notes_directory, { 'options': '--bind ctrl-a:select-all,ctrl-d:deselect-all' }, <bang>0)
-end
-if exists('fzf#vim#grep')
-  command! -bang -nargs=* SearchNotes
-    \ call fzf#vim#grep(
-    \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>).' '.shellescape(g:notes_directory).'| tr -d "\017"', 1,
-    \   { 'options': '--bind ctrl-a:select-all,ctrl-d:deselect-all' },
-    \   <bang>0)
-end
+command! -bang -nargs=? Notes
+  \ call fzf#vim#files(g:notes_directory, { 'options': '--bind ctrl-a:select-all,ctrl-d:deselect-all' }, <bang>0)
 
-" TODO SearchNote
+command! -bang -nargs=* SearchNotes
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>).' '.shellescape(g:notes_directory).'| tr -d "\017"', 1,
+  \   { 'options': '--bind ctrl-a:select-all,ctrl-d:deselect-all' },
+  \   <bang>0)
